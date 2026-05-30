@@ -1,0 +1,36 @@
+# ============================================================
+# ALBA SaaS — Wrangler config (Cloudflare Workers)
+# ============================================================
+# Nitro genera dist/server/wrangler.json al hacer `npm run build`.
+# Este archivo define los secretos y el nombre del proyecto.
+# El deploy se ejecuta desde dist/server/ usando el wrangler.json generado.
+#
+# Para hacer deploy:
+#   npm run build && npm run deploy
+# ============================================================
+
+name = "alba-saas"
+main = "dist/server/index.mjs"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "dist/client"
+binding = "ASSETS"
+
+no_bundle = true
+
+[[rules]]
+type = "ESModule"
+globs = ["**/*.mjs", "**/*.js"]
+
+[vars]
+NODE_ENV = "production"
+
+# Secretos — configurar con `wrangler secret put` o en el panel de Cloudflare:
+#
+#   wrangler secret put VITE_SUPABASE_URL
+#   wrangler secret put VITE_SUPABASE_PUBLISHABLE_KEY
+#   wrangler secret put SUPABASE_URL
+#   wrangler secret put SUPABASE_PUBLISHABLE_KEY
+#   wrangler secret put SUPABASE_SERVICE_ROLE_KEY
